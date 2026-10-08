@@ -1,0 +1,384 @@
+<div class="portfolio-page">
+
+  <!-- ================= TOP GRID ================= -->
+
+  <div class="top-grid">
+
+    <!-- Portfolio Hero -->
+    <section class="hero glass">
+
+      <div class="hero-left">
+
+        <div class="title-row">
+          <span class="icon">📊</span>
+          <div>
+            <h3>My Portfolio</h3>
+            <p>Real-time holdings & performance</p>
+          </div>
+        </div>
+
+        <h1>${{ totalPortfolioValue | number:'1.2-2' }}</h1>
+
+        <div class="profit"
+             [class.up]="totalProfit>=0"
+             [class.down]="totalProfit<0">
+
+          <span>↗</span>
+
+          {{totalProfit>=0?'+':''}}
+          ${{ totalProfit | number:'1.2-2' }}
+
+          <small>
+            ({{ totalPortfolioValue>0 ? ((totalProfit/totalPortfolioValue)*100):0 | number:'1.2-2'}}%)
+          </small>
+
+        </div>
+
+      </div>
+
+      <div class="hero-right">
+
+        <div class="time-filter">
+          <button class="active">1D</button>
+          <button>1W</button>
+          <button>1M</button>
+          <button>1Y</button>
+          <button>ALL</button>
+        </div>
+
+        <div class="chart-placeholder">
+          <div class="glow-line"></div>
+        </div>
+
+        <span class="update">● Last updated just now</span>
+
+      </div>
+
+    </section>
+
+    <!-- Allocation -->
+    <section class="allocation glass">
+
+      <h3>Portfolio Allocation</h3>
+
+      <div class="pie">
+
+        <div class="center">
+          <h2>{{assets.length}}</h2>
+          <span>Assets</span>
+        </div>
+
+      </div>
+
+      <div class="legend">
+
+        @for(asset of assets; track asset.id){
+
+        <div class="item">
+
+          <span class="dot"></span>
+
+          <label>{{asset.coin.symbol | uppercase}}</label>
+
+          <strong>
+            {{
+              ((getCurrentValue(asset)/totalPortfolioValue)*100)
+              | number:'1.0-1'
+            }}%
+          </strong>
+
+        </div>
+
+        }
+
+      </div>
+
+    </section>
+
+  </div>
+
+  <!-- ================= STATS ================= -->
+
+  <section class="stats">
+
+    <div class="stat glass">
+      <div class="stat-icon cyan">💎</div>
+      <div>
+        <p>Total Value</p>
+        <h2>${{ totalPortfolioValue | number:'1.2-2' }}</h2>
+        <span class="green">
+          +{{ totalProfit | number:'1.2-2' }}
+        </span>
+      </div>
+    </div>
+
+    <div class="stat glass">
+      <div class="stat-icon blue">📊</div>
+      <div>
+        <p>Total Invested</p>
+        <h2>
+          ${{
+            totalPortfolioValue-totalProfit
+            | number:'1.2-2'
+          }}
+        </h2>
+        <span>Average Cost</span>
+      </div>
+    </div>
+
+    <div class="stat glass">
+      <div class="stat-icon emerald">📈</div>
+      <div>
+        <p>Total Profit</p>
+        <h2>${{ totalProfit | number:'1.2-2' }}</h2>
+        <span class="green">
+          {{totalProfit>=0?'+':''}}
+          {{
+            totalPortfolioValue>0
+            ? ((totalProfit/totalPortfolioValue)*100)
+            : 0
+            | number:'1.2-2'
+          }}%
+        </span>
+      </div>
+    </div>
+
+    <div class="stat glass">
+      <div class="stat-icon purple">👑</div>
+      <div>
+        <p>Top Performer</p>
+        <h2>{{ bestCoin || '—' }}</h2>
+        <span>Highest Profit Coin</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ================= HOLDINGS ================= -->
+
+  <section class="holdings glass">
+
+    <div class="head">
+
+      <div>
+        <h2>My Holdings ({{assets.length}})</h2>
+        <p>Your crypto assets with live performance</p>
+      </div>
+
+      <div class="actions">
+
+        <div class="search">
+          🔍
+          <input placeholder="Search assets...">
+        </div>
+
+        <select>
+          <option>Sort by Value</option>
+          <option>Sort by Profit</option>
+        </select>
+
+        <button class="grid">☷</button>
+
+      </div>
+
+    </div>
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Asset</th>
+          <th>Qty</th>
+          <th>Avg Buy</th>
+          <th>Current</th>
+          <th>24H</th>
+          <th>Market Value</th>
+          <th>P/L</th>
+          <th>Sell Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        @for(asset of assets; track asset.id){
+
+        <tr>
+
+          <td class="coin">
+
+            <img [src]="asset.coin.image">
+
+            <div>
+              <h4>{{asset.coin.name}}</h4>
+              <span>{{asset.coin.symbol | uppercase}}</span>
+            </div>
+
+          </td>
+
+          <td>{{asset.Quantity}}</td>
+
+          <td>${{asset.BuyPrice | number:'1.2-6'}}</td>
+
+          <td>${{asset.coin.currentPrice | number:'1.2-6'}}</td>
+
+          <td>
+
+            <span
+              [class.green]="asset.coin.priceChangePercentage24h>=0"
+              [class.red]="asset.coin.priceChangePercentage24h<0">
+
+              {{asset.coin.priceChangePercentage24h | number:'1.2-2'}}%
+
+            </span>
+
+          </td>
+
+          <td>
+            ${{ getCurrentValue(asset) | number:'1.2-2' }}
+          </td>
+
+          <td>
+
+            <div class="pl"
+                 [class.green]="getProfit(asset)>=0"
+                 [class.red]="getProfit(asset)<0">
+
+              <strong>
+                {{getProfit(asset)>=0?'+':''}}
+                ${{ getProfit(asset) | number:'1.2-2' }}
+              </strong>
+
+              <small>
+                {{
+                  asset.BuyPrice>0
+                  ? ((getProfit(asset)/(asset.BuyPrice*asset.Quantity))*100)
+                  : 0
+                  | number:'1.2-2'
+                }}%
+              </small>
+
+            </div>
+
+          </td>
+
+        <td class="action">
+  <button class="sell-btn" (click)="openSellModal(asset)">
+    Sell
+  </button>
+</td>
+       
+
+        </tr>
+
+        } @empty {
+
+        <tr>
+          <td colspan="8" class="empty">
+            No Portfolio Found
+          </td>
+        </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </section>
+
+  <!-- ================= FOOTER SUMMARY ================= -->
+
+  <section class="footer-summary glass">
+
+    <div>
+      <label>Total Assets</label>
+      <h3>{{assets.length}}</h3>
+    </div>
+
+    <div>
+      <label>Total Invested</label>
+      <h3>
+        ${{
+          totalPortfolioValue-totalProfit
+          | number:'1.2-2'
+        }}
+      </h3>
+    </div>
+
+    <div>
+      <label>Current Value</label>
+      <h3>${{ totalPortfolioValue | number:'1.2-2' }}</h3>
+    </div>
+
+    <div>
+      <label>Total Profit</label>
+      <h3 class="green">
+        {{totalProfit>=0?'+':''}}
+        ${{ totalProfit | number:'1.2-2' }}
+      </h3>
+    </div>
+
+  </section>
+
+</div>
+@if(showSellModal && selectedAsset){
+
+<div class="sell-overlay">
+
+  <div class="sell-modal">
+
+    <button class="close-btn" (click)="showSellModal=false">✕</button>
+
+    <div class="coin-header">
+      <img [src]="selectedAsset.coin.image" class="coin-img">
+
+      <div>
+        <h2>Sell {{selectedAsset.coin.symbol | uppercase}}</h2>
+        <p>{{selectedAsset.coin.name}}</p>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+
+      <div class="stat-box">
+        <span>Available</span>
+        <h3>{{selectedAsset.Quantity}}</h3>
+      </div>
+
+      <div class="stat-box">
+        <span>Live Price</span>
+        <h3>${{selectedAsset.coin.currentPrice}}</h3>
+      </div>
+
+    </div>
+
+    <div class="input-group">
+
+      <label>Quantity</label>
+
+      <input
+        type="number"
+        [(ngModel)]="sellQty"
+        min="1"
+        [max]="selectedAsset.Quantity"
+        placeholder="Enter quantity">
+
+    </div>
+
+    <div class="receive-card">
+      <span>You will receive</span>
+
+      <h1>
+        ${{ (sellQty * selectedAsset.coin.currentPrice) | number:'1.2-2' }}
+      </h1>
+    </div>
+
+    <button class="sell-btn" (click)="confirmSell()">
+      Confirm Sell
+    </button>
+
+  </div>
+
+</div>
+
+}

@@ -1,0 +1,649 @@
+/* =========================================================
+   TRADEX DASHBOARD UI
+   Works with your existing HTML only
+========================================================= */
+
+:host{
+  display:block;
+  min-height:100vh;
+  color:#F8FAFC;
+}
+
+.containerser{
+  position:relative;
+  display:grid;
+  grid-template-columns:1.65fr .92fr;
+  gap:24px;
+  padding:8px;
+  isolation:isolate;
+}
+
+/* Aurora background */
+
+.containerser::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-2;
+
+  background:
+    radial-gradient(circle at 15% 20%, rgba(99,102,241,.12), transparent 25%),
+    radial-gradient(circle at 85% 15%, rgba(34,211,238,.10), transparent 28%),
+    radial-gradient(circle at 50% 100%, rgba(16,185,129,.05), transparent 30%),
+    linear-gradient(180deg,#040814 0%,#071321 55%,#091827 100%);
+}
+
+
+// coin 
+.coin-select{
+  width:100%;
+}
+
+/* Remove default spacing */
+.coin-select .mat-mdc-form-field-subscript-wrapper{
+  display:none;
+}
+
+.coin-select .mat-mdc-text-field-wrapper{
+  height:52px !important;
+  border-radius:14px !important;
+  background:linear-gradient(
+    180deg,
+    rgba(30,41,59,.95),
+    rgba(15,23,42,.95)
+  ) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.04),
+    0 6px 18px rgba(0,0,0,.25);
+}
+
+.coin-select .mat-mdc-form-field-flex{
+  height:52px;
+  align-items:center;
+}
+
+.coin-select .mdc-notched-outline__leading,
+.coin-select .mdc-notched-outline__notch,
+.coin-select .mdc-notched-outline__trailing{
+  border:none !important;
+}
+
+.coin-select .mat-mdc-select-value,
+.coin-select .mat-mdc-select-placeholder,
+.coin-select .mat-mdc-select-arrow{
+  color:#F8FAFC !important;
+}
+
+.coin-select.mat-focused .mat-mdc-text-field-wrapper{
+  border:1px solid #2563EB !important;
+  box-shadow:
+    0 0 0 3px rgba(37,99,235,.15),
+    inset 0 1px rgba(255,255,255,.05);
+}
+
+
+/* Soft grid */
+
+.containerser::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  opacity:.22;
+
+  background-image:
+  linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+
+  background-size:42px 42px;
+}
+
+/* ================= LEFT ================= */
+
+.containter{
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+}
+
+.conter1{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.tet1{
+  display:none;
+}
+
+.tet2{
+  width:100%;
+}
+
+.shot{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
+
+
+
+.sol p{
+  color:#94A3B8;
+  font-size:.88rem;
+  margin:0;
+}
+
+.fdf{
+  margin:18px 0 12px;
+  font-size:2.2rem;
+  font-weight:800;
+  letter-spacing:-1px;
+}
+
+.sol h4{
+
+  display:inline-flex;
+  align-items:center;
+
+  padding:8px 16px;
+  border-radius:999px;
+
+  background:rgba(34,197,94,.12);
+
+  color:#22C55E;
+
+  font-size:.82rem;
+}
+
+/* ================= STAT CARD ================= */
+
+.sol{
+  position:relative;
+  overflow:hidden;
+  padding:22px;
+  min-height:145px;
+  border-radius:22px;
+
+  background:
+    linear-gradient(160deg,
+      rgba(22,32,58,.82),
+      rgba(18,30,52,.68));
+
+  backdrop-filter: blur(30px);
+  border:1px solid rgba(255,255,255,.08);
+
+  box-shadow:
+    0 18px 40px rgba(0,0,0,.35),
+    inset 0 1px rgba(255,255,255,.05);
+
+  transition:.35s ease;
+}
+
+.sol::before{
+  content:"";
+  position:absolute;
+  top:-60px;
+  right:-60px;
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  background:radial-gradient(circle,
+      rgba(99,102,241,.28),
+      transparent 70%);
+}
+
+.sol,
+.conter2,
+.syum1,
+.syum2{
+
+  position:relative;
+  overflow:hidden;
+
+  border-radius:24px;
+
+  background:
+  linear-gradient(160deg,
+      rgba(18,28,45,.72),
+      rgba(12,22,38,.58));
+
+  backdrop-filter:blur(30px) saturate(180%);
+  -webkit-backdrop-filter:blur(30px);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  box-shadow:
+    0 10px 35px rgba(0,0,0,.35),
+    inset 0 1px rgba(255,255,255,.05);
+
+  transition:.35s ease;
+}
+
+.sol:hover,
+.conter2:hover,
+.syum1:hover,
+.syum2:hover{
+
+  transform:translateY(-6px);
+
+  border-color:rgba(96,165,250,.18);
+
+  box-shadow:
+    0 22px 45px rgba(0,0,0,.45),
+    0 0 20px rgba(59,130,246,.10);
+}
+
+/* glass reflection */
+
+.sol::before,
+.conter2::before,
+.syum1::before,
+.syum2::before{
+
+  content:"";
+  position:absolute;
+  inset:0;
+
+  background:
+  linear-gradient(130deg,
+      rgba(255,255,255,.08),
+      transparent 28%);
+
+  pointer-events:none;
+}
+
+.sol p{
+  margin:0;
+  font-size:.88rem;
+  color:#94A3B8;
+}
+
+.fdf{
+  margin:16px 0 12px;
+  font-size:2.15rem;
+  font-weight:800;
+  letter-spacing:-1px;
+}
+
+.sol h4{
+  display:inline-flex;
+  padding:8px 16px;
+  border-radius:999px;
+  background:rgba(16,185,129,.14);
+  color:#22C55E;
+  font-size:.9rem;
+  font-weight:700;
+}
+
+/* ================= TABLE CARD ================= */
+.conter2{
+  padding:22px;
+}
+
+.conter2 > p{
+
+  font-size:1.5rem;
+  font-weight:700;
+  margin-bottom:18px;
+}
+
+table{
+  background:transparent;
+}
+
+.mat-mdc-header-row{
+  background:rgba(255,255,255,.03);
+}
+
+.mat-mdc-header-cell{
+
+  color:#CBD5E1;
+  font-size:.82rem;
+  font-weight:700;
+  letter-spacing:.05em;
+}
+
+.mat-mdc-row{
+
+  transition:.25s;
+  border-radius:14px;
+}
+
+.mat-mdc-row:hover{
+
+  background:rgba(59,130,246,.06);
+}
+
+.mat-mdc-cell{
+  border-color:rgba(255,255,255,.04);
+}
+
+
+
+.example-container{
+  border-radius:18px;
+  overflow:hidden;
+}
+
+/* Angular Material */
+
+
+
+
+
+
+.mat-mdc-cell img{
+  border-radius:50%;
+  margin-right:10px;
+  box-shadow:0 0 12px rgba(59,130,246,.3);
+}
+
+/* Trade Button */
+
+.trade-btn{
+
+  border:none;
+  padding:8px 20px;
+
+  border-radius:999px;
+
+  background:
+  linear-gradient(135deg,#7C3AED,#EC4899);
+
+  box-shadow:
+  0 8px 18px rgba(168,85,247,.35);
+
+  transition:.25s;
+}
+
+.trade-btn:hover{
+
+  transform:scale(1.06);
+
+  box-shadow:
+  0 12px 24px rgba(236,72,153,.45);
+}
+
+.trade-btn a{
+  color:white;
+  font-weight:700;
+  text-decoration:none;
+}
+
+  
+
+/* ================= RIGHT ================= */
+
+.contyainter1{
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+}
+
+.syum1,
+.syum2{
+  border-radius:24px;
+  background:
+    linear-gradient(160deg,
+      rgba(24,36,66,.78),
+      rgba(18,28,50,.66));
+  backdrop-filter: blur(28px);
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 18px 40px rgba(0,0,0,.35);
+}
+
+.carder{
+  padding:22px;
+}
+
+.carder > p{
+
+  font-size:1.45rem;
+  font-weight:700;
+
+  margin-bottom:22px;
+}
+
+.dover{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  padding:24px;
+  border-radius:24px;
+  background:linear-gradient(180deg,#0B1731,#091428);
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 20px 40px rgba(0,0,0,.35);
+}
+
+.dover1{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+
+/* Header */
+
+.calculator-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.calculator-header h3{
+  margin:0;
+  color:#fff;
+  font-size:1.45rem;
+  font-weight:700;
+}
+
+.calculator-header p{
+  margin-top:6px;
+  color:#94A3B8;
+  font-size:.85rem;
+}
+
+.risk-badge{
+  padding:10px 18px;
+  border-radius:999px;
+  background:rgba(37,99,235,.18);
+  color:#60A5FA;
+  font-weight:700;
+}
+/* Inputs */
+
+.selecter1{
+  position:relative;
+}
+.selecter1 input,
+.selecter1 select{
+  width:100%;
+  height:52px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.05);
+  color:#F8FAFC;
+  padding:0 16px;
+  outline:none;
+  transition:.25s;
+  font-size:.95rem;
+}
+
+.selecter1 input::placeholder{
+  color:#64748B;
+}
+
+.selecter1 input:focus,
+.selecter1 select:focus{
+  border-color:#3B82F6;
+  box-shadow:0 0 0 3px rgba(59,130,246,.15);
+  background:rgba(59,130,246,.06);
+}
+/* Button */
+
+.mycalculator{
+  width:100%;
+  height:54px;
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+  color:white;
+  font-size:1rem;
+  font-weight:700;
+  background:linear-gradient(90deg,#2563EB,#06B6D4);
+  transition:.3s;
+}
+
+.mycalculator:hover{
+  transform:translateY(-2px);
+  box-shadow:0 14px 30px rgba(37,99,235,.35);
+}
+
+
+
+.dof{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.dof p{
+  margin:0;
+  color:#CBD5E1;
+  font-size:.9rem;
+  font-weight:500;
+}
+
+
+
+
+
+.selecter1 input,
+.selecter1 select{
+  width:90%;
+  height:40px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.1);
+  background:#0f172a;
+  color:white;
+  padding:0 12px;
+}
+
+/* Result */
+
+.textr{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.dlf{
+  padding:18px;
+  border-radius:18px;
+  background:linear-gradient(180deg,
+    rgba(30,41,59,.9),
+    rgba(15,23,42,.9));
+  border:1px solid rgba(255,255,255,.05);
+}
+
+.dlf span{
+  color:#94A3B8;
+  font-size:.8rem;
+}
+
+.dlf h3{
+  margin:10px 0 0;
+  color:#22C55E;
+  font-size:1.35rem;
+  font-weight:800;
+}
+
+
+.selecter1 input[type="number"]::-webkit-outer-spin-button,
+.selecter1 input[type="number"]::-webkit-inner-spin-button{
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.selecter1 input[type="number"]{
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+
+
+/* Amount Box */
+
+.textr{
+
+  margin-top:16px;
+
+  padding:16px 18px;
+
+  border-radius:16px;
+
+  background:rgba(255,255,255,.04);
+
+  border:1px solid rgba(34,197,94,.28);
+
+  box-shadow:
+  inset 0 1px rgba(255,255,255,.04);
+}
+
+.dlf p{
+
+  margin:0;
+
+  color:#E2E8F0;
+
+  font-weight:600;
+}
+
+
+/* Chart Card */
+.syum2{
+
+  padding:18px;
+  min-height:330px;
+}
+
+/* ================= Responsive ================= */
+
+@media(max-width:1300px){
+
+  .containerser{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:900px){
+
+  .shot{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .dover1{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:600px){
+
+  .shot{
+    grid-template-columns:1fr;
+  }
+
+  .fdf{
+    font-size:1.7rem;
+  }
+
+  .conter2,
+  .carder{
+    padding:16px;
+  }
+
+}

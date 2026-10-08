@@ -1,0 +1,464 @@
+<div class="withdraw-page">
+
+  <!-- ================= HERO ================= -->
+
+  <section class="hero glass">
+
+    <div class="hero-left">
+
+      <span class="badge">
+        <fa-icon [icon]="faWallet"></fa-icon>
+        WITHDRAWAL CENTER
+      </span>
+
+      <h1>${{ wallet.balance | number:'1.2-2' }}</h1>
+
+      <p>
+        Withdraw your trading profits securely with instant wallet deduction
+        and encrypted bank settlement.
+      </p>
+
+      <div class="hero-info">
+
+        <div class="info-card">
+          <span>Completed</span>
+          <h3>{{ completedCount }}</h3>
+        </div>
+
+        <div class="info-card pending">
+          <span>Pending</span>
+          <h3>{{ pendingCount }}</h3>
+        </div>
+
+        <div class="info-card">
+          <span>Total Paid</span>
+          <h3>${{ totalAmount | number:'1.2-2' }}</h3>
+          
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="hero-right">
+
+      <button class="refresh" (click)="refresh()">
+    <fa-icon
+  [icon]="faRotateRight"
+  [class.rotate]="isRefreshing">
+</fa-icon>
+        Refresh
+      </button>
+
+      <div class="success-widget">
+
+        <span>Success Rate</span>
+
+        <h2>{{ successRate | number:'1.0-0' }}%</h2>
+
+        <div class="progress">
+          <div
+            class="fill"
+            [style.width.%]="successRate">
+          </div>
+        </div>
+
+        <small>{{ completedCount }} successful withdrawals</small>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================= ANALYTICS ================= -->
+
+  <section class="stats">
+
+    <div class="stat glass cyan">
+      <fa-icon [icon]="faWallet"></fa-icon>
+      <div>
+        <span>Available Balance</span>
+        <h3>${{ wallet.balance | number:'1.2-2' }}</h3>
+      </div>
+    </div>
+
+    <div class="stat glass green">
+      <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
+      <div>
+        <span>Total Withdrawn</span>
+        <h3>${{ totalWithdrawn | number:'1.2-2' }}</h3>
+      </div>
+    </div>
+
+    <div class="stat glass gold">
+      <fa-icon [icon]="faClockRotateLeft"></fa-icon>
+      <div>
+        <span>Pending</span>
+        <h3>{{ pendingCount }}</h3>
+      </div>
+    </div>
+
+    <div class="stat glass purple">
+      <fa-icon [icon]="faCircleCheck"></fa-icon>
+      <div>
+        <span>Success Rate</span>
+        <h3>{{ successRate | number:'1.0-0' }}%</h3>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ================= MAIN GRID ================= -->
+
+  <div class="main-grid">
+
+    <!-- LEFT PANEL -->
+
+    <section class="withdraw-box glass">
+
+      <div class="section-head">
+        <h2>Withdraw Funds</h2>
+        <p>Minimum withdrawal: $10</p>
+      </div>
+
+      <label>Withdrawal Amount</label>
+
+      <div class="amount-input">
+
+        <span>$</span>
+
+        <input
+          type="number"
+          [(ngModel)]="amount"
+          min="10"
+          [max]="wallet.balance"
+            (ngModelChange)="onAmountChange()"
+          placeholder="Minimum $10">
+
+      </div>
+
+      <!-- Progress -->
+
+      <div class="withdraw-progress">
+
+        <div class="labels">
+
+          <span>Withdrawal Usage</span>
+
+          <strong>
+            {{
+              wallet.balance > 0
+                ? ((amount / wallet.balance) * 100)
+                : 0
+                | number:'1.0-0'
+            }}%
+          </strong>
+
+        </div>
+
+        <div class="bar">
+
+          <div
+            class="fills"
+            [style.width.%]="wallet.balance > 0 ? (amount / wallet.balance) * 100 : 0">
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Quick Buttons -->
+
+      <div class="quick-buttons">
+
+        <button (click)="setAmount(25)">25%</button>
+        <button (click)="setAmount(50)">50%</button>
+        <button (click)="setAmount(75)">75%</button>
+        <button class="max" (click)="setMax()">MAX</button>
+
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Summary -->
+
+      <div class="summary">
+
+        <div class="row">
+          <span>Wallet Balance</span>
+          <strong>${{ wallet.balance | number:'1.2-2' }}</strong>
+        </div>
+
+        <div class="row">
+          <span>Withdrawal Amount</span>
+          <strong>${{ amount | number:'1.2-2' }}</strong>
+        </div>
+
+        <div class="row">
+          <span>Processing Fee</span>
+          <strong>$2.00</strong>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="receive">
+          <span>You Receive</span>
+          <h2>${{ netAmount | number:'1.2-2' }}</h2>
+        </div>
+
+      </div>
+
+      <!-- Withdraw Button -->
+
+      <button
+        class="withdraw-btn"
+        [disabled]="amount < 10 || amount > wallet.balance || loading"
+        (click)="withdraw()">
+
+        <fa-icon [icon]="faMoneyBillTransfer"></fa-icon>
+
+        {{ loading ? 'Processing...' : 'Withdraw Now' }}
+
+      </button>
+
+    </section>
+
+    <!-- RIGHT PANEL -->
+
+    <section class="side-panel">
+
+      <!-- Security -->
+
+      <div class="glass security-card">
+
+        <h3>Security Protection</h3>
+
+        <div class="secure-item">
+          <fa-icon [icon]="faCircleCheck"></fa-icon>
+          <div>
+            <strong>256-bit Encryption</strong>
+            <p>Every transaction is fully encrypted</p>
+          </div>
+        </div>
+
+        <div class="secure-item">
+          <fa-icon [icon]="faCircleCheck"></fa-icon>
+          <div>
+            <strong>Instant Wallet Lock</strong>
+            <p>Funds are reserved immediately</p>
+          </div>
+        </div>
+
+        <div class="secure-item">
+          <fa-icon [icon]="faCircleCheck"></fa-icon>
+          <div>
+            <strong>KYC Verified</strong>
+            <p>Withdraw only to verified accounts</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Settlement -->
+
+      <div class="glass settlement-card">
+
+        <h3>Settlement Account</h3>
+
+        <div class="bank-card">
+
+          <div class="bank-logo">
+            <fa-icon [icon]="faBuildingColumns"></fa-icon>
+          </div>
+
+          <div>
+            <strong>{{ wallet.bankName || 'HDFC Bank' }}</strong>
+            <p>•••• {{ wallet.accountLast4 || '4821' }}</p>
+          </div>
+
+        </div>
+
+
+        <div class="divider"></div>
+
+        <div class="row">
+          <span>Transfer Method</span>
+          <strong>IMPS</strong>
+        </div>
+
+        <div class="row">
+          <span>Estimated Time</span>
+          <strong class="green">5–30 min</strong>
+        </div>
+
+        <button class="change-account">
+          Change Account
+        </button>
+
+      </div>
+
+    </section>
+
+  </div>
+
+  <!-- ================= HISTORY ================= -->
+
+  <section class="history glass">
+
+    <div class="history-head">
+
+      <div>
+        <h2>Withdrawal History</h2>
+        <p>{{ history.length }} total transactions</p>
+      </div>
+
+      <div class="search-box">
+
+        <input
+          class="search"
+          [(ngModel)]="search"
+          (input)="applyFilter()"
+          placeholder="Search transaction">
+
+      </div>
+
+    </div>
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>Transaction</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        @if (paginatedHistory.length) {
+
+          @for (item of paginatedHistory; track item.id) {
+
+            <tr>
+
+              <td>
+
+                <div class="tx">
+
+                  <div class="tx-icon">
+                    <fa-icon [icon]="faMoneyBillTransfer"></fa-icon>
+                  </div>
+
+                  <div class="tx-info">
+
+                    <strong>Withdrawal #{{ item.id }}</strong>
+
+                    <small>
+                      {{
+                        item.status === 'SUCCESS'
+                          ? 'Transferred to HDFC'
+                          : item.status === 'PENDING'
+                          ? 'Awaiting approval'
+                          : 'Request declined'
+                      }}
+                    </small>
+
+                  </div>
+
+                </div>
+
+              </td>
+
+              <td class="money">
+                ${{ item.amount | number:'1.2-2' }}
+              </td>
+
+              <td>
+
+                <span
+                  class="status"
+                  [class.success]="item.status === 'SUCCESS'"
+
+                  [class.pending]="item.status === 'PENDING'"
+                  [class.reject]="item.status === 'DECLINED'">
+
+                  {{ item.status }}
+
+                </span>
+
+              </td>
+
+              <td>
+
+                {{ item.date | date:'dd MMM yyyy' }}
+
+                <br>
+
+                <small>{{ item.date | date:'HH:mm' }}</small>
+
+              </td>
+
+            </tr>
+
+          }
+
+        } @else {
+
+          <tr>
+
+            <td colspan="4">
+
+              <div class="empty-history">
+
+                <fa-icon [icon]="faWallet"></fa-icon>
+
+                <h3>No withdrawals yet</h3>
+
+                <p>Your completed transactions will appear here.</p>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+    <!-- Pagination -->
+
+    <div class="pagination">
+
+      <button
+        (click)="prev()"
+        [disabled]="currentPage === 1">
+
+        ← Previous
+
+      </button>
+
+      <span>
+        Page {{ currentPage }} of {{ totalPages }}
+      </span>
+
+      <button
+        (click)="next()"
+        [disabled]="currentPage === totalPages">
+
+        Next →
+
+      </button>
+
+    </div>
+
+  </section>
+
+</div>

@@ -1,0 +1,307 @@
+<div class="containerser">
+<div class="containter">
+
+
+    <div class="conter1">
+
+        <div class="tet1"></div>
+        <div class="tet2">
+          <div class="shot">
+<div class="sol">
+<p [ngStyle]="{color:'#8B5CF6'}">Total Balance</p>
+
+<h1 class="fdf">
+  {{ totalBalance | currency:'USD' }}
+</h1>
+
+<h4>{{ avgGrowth }}%</h4>
+
+</div>
+<div class="sol">
+    <p [ngStyle]="{color:'#10B981'}">Daily profit</p>
+<h1 class="fdf">
+  {{ todayProfit | currency:'USD' }}
+</h1>
+
+</div>
+<div class="sol">
+  <p >Total Assest</p>
+
+<h1 class="fdf">
+  {{ totalAssets }}
+</h1>
+</div>
+<div class="sol">
+  <p [ngStyle]="{color:'#F59E0B'}">Open Position</p>
+
+<h1 class="fdf">5</h1>
+<h1 class="fdf">
+  {{ openPosition }}
+</h1>
+
+</div>
+          </div>
+
+        </div>
+    </div>
+    <div class="conter2">
+
+<p>Proposition to buy</p>
+<div class="example-container">
+
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          matSort>
+
+          <!-- Coin -->
+          <ng-container matColumnDef="coin" >
+
+
+            <th mat-header-cell *matHeaderCellDef mat-sort-header >
+
+              Currency
+            </th>
+<td mat-cell *matCellDef="let coin" class="coin-cell">
+
+  <img [src]="coin.image" width="32" height="32">
+
+  <div class="coin-info">
+    <strong>{{coin.symbol | uppercase}}</strong>
+    <small>{{coin.name}}</small>
+  </div>
+
+</td>
+          </ng-container>
+
+          <!-- Price -->
+
+          <ng-container matColumnDef="price">
+
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+              Price
+
+            </th>
+
+            <td mat-cell *matCellDef="let coin"  [ngStyle]="{color:'rgb(107, 105, 105)'}" >
+
+
+
+
+              {{coin.currentPrice | currency}}
+
+            </td >
+
+          </ng-container>
+
+<!-- my coin trade -->
+
+
+              
+
+
+          <!-- Change -->
+
+          <ng-container matColumnDef="change">
+
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+              24H Change
+
+            </th>
+
+            <td mat-cell *matCellDef="let coin">
+
+              <span
+                [style.color]="coin.priceChangePercentage24h>=0?'limegreen':'red'">
+
+                {{coin.priceChangePercentage24h}} %
+
+              </span>
+
+            </td>
+
+          </ng-container>
+
+          <!-- Action -->
+
+          <ng-container matColumnDef="action">
+
+            <th mat-header-cell *matHeaderCellDef>
+
+              Action
+
+            </th>
+
+            <td mat-cell *matCellDef="let coin">
+
+              <button class="trade-btn">
+
+<a  [routerLink]="['data/'+coin.coinId]">Trade</a>
+
+
+              </button>
+
+            </td>
+
+          </ng-container>
+
+          <tr
+            mat-header-row
+            *matHeaderRowDef="displayedColumns; sticky:true">
+
+          </tr>
+
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns">
+
+          </tr>
+
+        </table>
+
+      </div>
+
+
+    </div>
+        
+  
+</div>
+
+<div class="contyainter1">
+
+  <div class="syum1">
+<div class="carder">
+<p [ngStyle]="{fontSize:'1.3rem',fontWeight:'bolder'}">Position Size calculator</p>
+
+<div class="dover">
+
+  <div class="calculator-header">
+    <div>
+      <h3>Position Size Calculator</h3>
+      <p>Manage risk before placing a trade</p>
+    </div>
+
+    <div class="risk-badge">
+      {{riskPercent}}% Risk
+    </div>
+  </div>
+
+  <!-- Row 1 -->
+  <div class="dover1">
+
+<div class="dof">
+  <p>Fund Name</p>
+
+<mat-form-field appearance="outline" class="coin-select">
+  <mat-select
+    [(value)]="selectedCoin"
+    (selectionChange)="selectCoin($event.value)"
+    placeholder="Select Coin">
+
+    @for(key of datas; track key.coinId){
+      <mat-option [value]="key">
+        {{key.symbol | uppercase}} - {{key.name}}
+      </mat-option>
+    }
+
+  </mat-select>
+</mat-form-field>
+</div>
+
+    <div class="dof">
+      <p>Risk Percentage</p>
+
+      <div class="selecter1">
+        <input
+          type="number"
+          [(ngModel)]="riskPercent"
+          min="1"
+          max="10"
+          placeholder="2"
+        />
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Row 2 -->
+  <div class="dover1">
+
+    <div class="dof">
+      <p>Opening Price</p>
+
+      <div class="selecter1">
+        <input
+          type="number"
+          [(ngModel)]="openingPrice"
+          step="0.01"
+          placeholder="0.00"
+        />
+      </div>
+    </div>
+
+    <div class="dof">
+      <p>Stop Loss Price</p>
+
+      <div class="selecter1">
+        <input
+          type="number"
+          [(ngModel)]="stopLossPrice"
+          step="0.01"
+          placeholder="0.00"
+        />
+      </div>
+    </div>
+
+  </div>
+
+  <button class="mycalculator" (click)="calculatePosition()">
+    Calculate Position
+  </button>
+
+  <!-- Result -->
+  <div class="textr">
+
+    <div class="dlf">
+      <span>Balance</span>
+      <h3>${{balance}}</h3>
+    </div>
+
+    <div class="dlf">
+      <span>Risk Amount</span>
+      <h3>${{riskAmount}}</h3>
+    </div>
+
+    <div class="dlf">
+      <span>Position Size</span>
+      <h3>{{positionSize}}</h3>
+    </div>
+
+  </div>
+
+</div>
+  
+
+</div>
+
+
+
+      
+
+  </div>
+  <div class="syum2">
+    
+            <app-chartset/>
+  </div>
+
+
+    </div>
+</div>
+
+
+
+
+
+

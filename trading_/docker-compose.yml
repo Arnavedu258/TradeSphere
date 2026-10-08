@@ -1,0 +1,45 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: Arnave@1234
+      MYSQL_DATABASE: registration
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+      interval: 5s
+    networks:
+      - trading-net
+
+  app:
+    image: trading-practise:v1
+    container_name: trading-app
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_HOST: mysql
+      SPRING_DATASOURCE_PORT: 3306
+      SPRING_DATASOURCE_DB: registration
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Arnave@1234
+    ports:
+      - "8082:8082"
+    pull_policy: never
+    networks:
+      - trading-net
+    restart: on-failure
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  trading-net:
+    driver: bridge

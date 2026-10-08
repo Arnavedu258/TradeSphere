@@ -1,0 +1,30 @@
+<div class="statistics-card">
+    
+  <div class="doppler">
+    <div class="super">
+     <p> dynamic chart</p>
+    </div>
+
+    <div class="selecter">
+        <select [ngStyle]="{width:'90%',height:'40px'}"  >
+
+      @for(key of datas;track key.coinId){
+        <option value="">{{key.coinId}}</option>
+
+      }
+        </select>
+      </div>
+  </div>
+
+    <canvasjs-chart
+
+        [options]="chartOptions" [ngStyle]="{height:'100px'}">
+
+
+
+    </canvasjs-chart>
+
+</div>
+
+       
+       

@@ -1,0 +1,308 @@
+<div class="trade-wrapper">
+
+  <!-- Background -->
+  <div class="bg-overlay"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-glow glow1"></div>
+  <div class="bg-glow glow2"></div>
+
+  <div class="container-fluid py-4 position-relative">
+
+<div class="hero-card">
+
+  <div class="hero-left">
+
+    <div class="hero-badge">
+      <i class="bi bi-wallet2"></i>
+      <span>TradeX Premium</span>
+    </div>
+
+    <h1>Trade Activity</h1>
+
+    <p>Monitor portfolio, wallet deposits & transfers in real-time</p>
+
+    <div class="hero-growth">
+      <span class="label">Portfolio Value</span>
+      <h2>₹ {{portfolioValue | number}}</h2>
+      <small>▲ +18.4% this month</small>
+    </div>
+
+  </div>
+
+  <div class="hero-right">
+
+    <button class="glass-action">
+
+      <i class="bi bi-calendar3"></i>
+      Sep 2026
+    </button>
+
+    <button class="glass-action">
+      <i class="bi bi-download"></i>
+      Export
+    </button>
+
+    <div class="hero-circle">
+      <i class="bi bi-graph-up-arrow"></i>
+    </div>
+
+  </div>
+
+</div>
+
+
+    <!-- ================= SEARCH ================= -->
+<div class="top-toolbar">
+
+  <div class="search-box">
+    <i class="bi bi-search"></i>
+    <input
+      type="text"
+      [(ngModel)]="searchText"
+      (input)="onSearch()"
+      placeholder="Search sender, receiver, reference..."
+    />
+  </div>
+
+  <div class="toolbar-actions">
+    <button class="tool-btn">
+      <i class="bi bi-funnel"></i>
+    </button>
+
+    <button class="tool-btn">
+      <i class="bi bi-calendar3"></i>
+    </button>
+
+    <button class="tool-btn">
+      <i class="bi bi-arrow-repeat"></i>
+    </button>
+  </div>
+
+</div>
+    <!-- ================= STATS ================= -->
+    <div class="row g-4 mb-4">
+
+      <div class="col-xl-3 col-md-6">
+        <div class="stat-card card-blue">
+
+          <div class="stat-top">
+            <div class="icon-wrap blue">
+              <i class="bi bi-wallet2"></i>
+            </div>
+
+            <span class="trend positive">
+              +8%
+            </span>
+          </div>
+
+          <p>Buying Power</p>
+
+          <h3>₹ {{buyingPower | number}}</h3>
+
+          <small>Available Balance</small>
+
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-md-6">
+        <div class="stat-card card-green">
+
+          <div class="stat-top">
+            <div class="icon-wrap green">
+              <i class="bi bi-piggy-bank"></i>
+            </div>
+
+            <span class="trend positive">
+              +18%
+            </span>
+          </div>
+
+          <p>Portfolio</p>
+
+          <h3>₹ {{portfolioValue | number}}</h3>
+
+          <small>This Month</small>
+
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-md-6">
+        <div class="stat-card card-purple">
+
+          <div class="stat-top">
+            <div class="icon-wrap purple">
+              <i class="bi bi-currency-rupee"></i>
+            </div>
+
+            <span class="trend positive">
+              +12%
+            </span>
+          </div>
+
+          <p>Total Profit</p>
+
+          <h3>₹ {{totalProfit | number}}</h3>
+
+          <small>Net Earnings</small>
+
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-md-6">
+        <div class="stat-card card-orange">
+
+          <div class="stat-top">
+            <div class="icon-wrap orange">
+              <i class="bi bi-activity"></i>
+            </div>
+
+            <span class="trend neutral">
+              30D
+            </span>
+          </div>
+
+          <p>Total Trades</p>
+
+          <h3>{{totalTrades}}</h3>
+
+          <small>Completed</small>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================= FILTER ================= -->
+    <div class="filter-card mb-4">
+
+      <button class="filter-btn active">All</button>
+
+      <button class="filter-btn">Buy</button>
+
+      <button class="filter-btn">Sell</button>
+
+      <button class="filter-btn">Deposit</button>
+
+      <button class="filter-btn">Transfer</button>
+
+    </div>
+
+    <!-- ================= TABLE ================= -->
+    <section class="table-card">
+
+      <div class="table-header">
+
+        <div>
+          <h3>Recent Transactions</h3>
+          <p>Live wallet & trading history</p>
+        </div>
+
+        <div class="record-chip">
+          {{filteredTransactions.length}} Records
+        </div>
+
+      </div>
+
+      <div class="table-responsive">
+
+        <table class="table align-middle mb-0">
+
+          <thead>
+            <tr>
+              <th>Asset</th>
+              <th>Type</th>
+              <th>Sender</th>
+              <th>Receiver</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th>Reference</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            @for(tx of filteredTransactions; track tx.id){
+
+            <tr>
+
+              <td>
+                <div class="asset">
+
+                  <img [src]="tx.coinImage">
+
+                  <div>
+                    <h6>{{tx.coinSymbol}}</h6>
+                    <small>{{tx.coinName}}</small>
+                  </div>
+
+                </div>
+              </td>
+
+              <td>
+
+                <span
+                  class="badge-type"
+                  [ngClass]="tx.walletTransactionType.toLowerCase()">
+
+                  {{tx.walletTransactionType}}
+
+                </span>
+
+              </td>
+
+              <td>
+
+                <div class="user-cell">
+                  <div class="avatar">
+                    {{tx.sender.userName[0]}}
+                  </div>
+
+                  {{tx.sender.userName}}
+                </div>
+
+              </td>
+
+              <td>{{tx.receiver.userEmail}}</td>
+
+              <td>
+
+                <span
+                  class="amount"
+                  [class.positive]="tx.walletTransactionType!='TRANSFER'"
+                  [class.negative]="tx.walletTransactionType=='TRANSFER'">
+
+                  ₹ {{tx.amount | number}}
+
+                </span>
+
+              </td>
+
+              <td>
+                {{tx.createdAt | date:'dd MMM yyyy'}}
+                <br>
+                <small>{{tx.createdAt | date:'hh:mm a'}}</small>
+              </td>
+
+              <td>
+
+                <span class="reference">
+                  {{tx.referenceId}}
+                </span>
+
+              </td>
+
+            </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      
+    </section>
+
+  </div>
+</div>

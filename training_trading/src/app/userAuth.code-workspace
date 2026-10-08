@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "../../../userAuth"
+		},
+		{
+			"path": "../../../trading/trading_"
+		},
+		{
+			"path": "../.."
+		}
+	],
+	"settings": {
+		"java.compile.nullAnalysis.mode": "automatic",
+		"java.configuration.updateBuildConfiguration": "interactive"
+	}
+}

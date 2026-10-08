@@ -1,0 +1,500 @@
+<div class="trade-page">
+
+  <!-- ========================= -->
+  <!-- HERO MARKET BAR -->
+  <!-- ========================= -->
+  <section class="market-summary">
+
+    <div class="summary-card">
+      <span>Current Price</span>
+      <h2>$ {{ singeldata?.currentPrice | number:'1.2-2' }}</h2>
+      <small>Live Market</small>
+    </div>
+
+    <div class="summary-card positive">
+      <span>24H Change</span>
+      <h2>{{ singeldata?.priceChangePercentage24h | number:'1.2-2' }}%</h2>
+      <small>${{ dailyProfitValue }}</small>
+    </div>
+
+    <div class="summary-card">
+      <span>Market Rank</span>
+      <h2>#{{ singeldata?.marketCapRank }}</h2>
+
+      <small>Global</small>
+    </div>
+
+    <div class="summary-card">
+      <span>Market Cap</span>
+      <h2>${{ singeldata?.marketCap }}</h2>
+      <small>{{ singeldata?.symbol | uppercase }}</small>
+    </div>
+
+
+  </section>
+
+
+
+  <!-- ========================= -->
+  <!-- TRADING TERMINAL -->
+  <!-- ========================= -->
+
+  <section class="terminal-grid">
+
+
+    <!-- ===================== -->
+    <!-- LEFT SIDE -->
+    <!-- ===================== -->
+
+    <div class="chart-panel">
+
+      <!-- Asset Header -->
+      <div class="chart-header">
+
+        <div class="coin-details">
+
+          <img
+            [src]="singeldata?.image"
+            class="coin-logo">
+
+          <div>
+
+            <h1>{{ singeldata?.name }}</h1>
+
+            <p>{{ singeldata?.symbol | uppercase }}/USD • Spot</p>
+
+          </div>
+
+        </div>
+
+        <div class="price-details">
+
+          <div class="live">● LIVE</div>
+
+          <h2>
+            $ {{ singeldata?.currentPrice | number:'1.2-2' }}
+          </h2>
+
+          <span
+            [class.green]="(singeldata?.priceChangePercentage24h ?? 0)>=0"
+            [class.red]="(singeldata?.priceChangePercentage24h ?? 0)<0">
+
+            {{ singeldata?.priceChangePercentage24h | number:'1.2-2' }}%
+
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- Timeframe -->
+
+      <div class="time-toolbar">
+
+        <button
+          [class.active]="dater==1"
+          (click)="Changeperiod(1)">
+          1D
+        </button>
+
+        <button
+          [class.active]="dater==7"
+          (click)="Changeperiod(7)">
+          7D
+        </button>
+
+        <button
+          [class.active]="dater==30"
+          (click)="Changeperiod(30)">
+          1M
+        </button>
+
+        <button
+          [class.active]="dater==90"
+          (click)="Changeperiod(90)">
+          3M
+        </button>
+
+        <button
+          [class.active]="dater==365"
+          (click)="Changeperiod(365)">
+          1Y
+        </button>
+
+      </div>
+
+
+      <!-- TradingView -->
+
+      <div class="chart-body">
+
+        <div
+          #chartContainer
+          class="chart-box">
+        </div>
+
+      </div>
+
+
+      <!-- Market Stats -->
+
+      <div class="market-stats">
+
+        <div class="stat">
+          <span>24H High</span>
+          <h3>${{ oneday?.high }}</h3>
+        </div>
+
+        <div class="stat">
+          <span>24H Low</span>
+          <h3>${{ oneday?.low }}</h3>
+        </div>
+
+        <div class="stat">
+          <span>Open</span>
+          <h3>${{ oneday?.open }}</h3>
+        </div>
+
+        <div class="stat">
+          <span>Close</span>
+          <h3>${{ oneday?.close }}</h3>
+        </div>
+
+        <div class="stat">
+          <span>Rank</span>
+          <h3>#{{ singeldata?.marketCapRank }}</h3>
+        </div>
+
+        <div class="stat">
+          <span>Volume</span>
+          <h3>${{ singeldata?.marketCap | number }}</h3>
+        </div>
+
+      </div>
+
+
+      <!-- Order Book -->
+<div class="table-card">
+
+  <div class="card-title">
+    <h3>Order Book</h3>
+    <span>{{ singeldata?.symbol | uppercase }}</span>
+  </div>
+
+  <table>
+
+    <thead>
+
+      <tr>
+        <th>Type</th>
+        <th>Price</th>
+        <th>Qty</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      @for(order of orderBook; track order.id){
+
+      <tr>
+
+        <td>
+          <span
+            class="trade-badge"
+            [class.buy]="order.type==='BUY'"
+            [class.sell]="order.type==='SELL'">
+            {{ order.type }}
+          </span>
+        </td>
+
+        <td>${{ order.price | number:'1.2-2' }}</td>
+
+        <td>{{ order.quantity }}</td>
+
+        <td>${{ order.total | number:'1.2-2' }}</td>
+
+      </tr>
+
+      } @empty {
+
+      <tr>
+        <td colspan="4" class="empty">
+          No Orders Found
+        </td>
+      </tr>
+
+      }
+
+    </tbody>
+
+  </table>
+
+</div>
+
+
+      <!-- Recent Trades -->
+
+      <div class="table-card">
+
+        <div class="card-title">
+
+          <h3>Recent Trades</h3>
+
+          <span>LIVE</span>
+
+        </div>
+
+        <table>
+
+          <thead>
+
+          <tr>
+
+            <th>Type</th>
+
+            <th>Price</th>
+
+            <th>Time</th>
+
+          </tr>
+
+          </thead>
+<tbody>
+  @for(trade of recentTrades; track trade.id){
+
+  <tr>
+    <td>
+      <span class="trade-badge"
+            [class.buy]="trade.type==='BUY'"
+            [class.sell]="trade.type==='SELL'">
+        {{trade.type}}
+      </span>
+    </td>
+
+    <td>
+      <strong>${{trade.price | number:'1.2-2'}}</strong>
+    </td>
+
+    <td>
+      <div class="trade-time">
+        <strong>{{trade.time | date:'HH:mm:ss'}}</strong>
+        <small>{{trade.time | date:'dd MMM yyyy'}}</small>
+      </div>
+    </td>
+  </tr>
+
+  }
+</tbody>
+        </table>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- ===================== -->
+    <!-- RIGHT TRADE TICKET -->
+    <!-- ===================== -->
+
+    <aside class="trade-panel">
+
+<div class="wallet-box">
+
+  <span>Available Balance</span>
+
+  <h1 class="wallet-balance">
+    ₹ {{ wallet?.balance | number:'1.2-2' }}
+  </h1>
+
+  <small>Verified Wallet</small>
+
+</div>
+
+<!-- 
+ -->
+
+      <!-- Buy Sell -->
+
+      <div class="trade-switch">
+
+        <button
+          [class.active]="isBuy"
+          (click)="selectBuy()">
+
+          BUY
+
+        </button>
+
+        <button
+          [class.active]="!isBuy"
+          (click)="selectSell()">
+
+          SELL
+
+        </button>
+
+      </div>
+
+
+      <!-- Order Type -->
+
+      <div class="field">
+
+        <label>Order Type</label>
+
+        <select [(ngModel)]="selectedOrderType">
+
+          <option>Market</option>
+
+          <option>Limit</option>
+
+          <option>Stop Limit</option>
+
+        </select>
+
+      </div>
+
+
+      <!-- Quantity -->
+
+      <div class="field">
+
+        <div class="row">
+
+          <label>Quantity</label>
+
+          <button
+            class="max"
+            (click)="setMax()">
+
+            MAX
+
+          </button>
+
+        </div>
+
+     <div class="quantity-box">
+
+  <button class="qty-btn" (click)="decreaseQty()">
+    −
+  </button>
+
+  <div class="qty-value">
+    {{ quantity }}
+  </div>
+
+  <button class="qty-btn" (click)="increaseQty()">
+    +
+  </button>
+
+</div>
+
+       <input
+  class="slider"
+  type="range"
+  min="1"
+  [max]="maxQty"
+  [ngModel]="quantity"
+  (ngModelChange)="onSliderChange($event)">
+      </div>
+
+
+      <!-- Risk -->
+
+      <div class="field">
+
+        <label>Risk Control</label>
+
+       <div class="risk-grid">
+  <input
+    class="risk-input"
+    type="number"
+    step="0.0001"
+    [(ngModel)]="stopLoss"
+    placeholder="Stop Loss">
+
+  <input
+    class="risk-input"
+    type="number"
+    step="0.0001"
+    [(ngModel)]="takeProfit"
+    placeholder="Take Profit">
+</div>
+
+      </div>
+
+
+<div class="imaging"></div>
+      <div class="spacer"></div>
+
+
+
+      <!-- Summary -->
+
+      <div class="order-summary">
+
+        <div class="row">
+
+          <span>Market Price</span>
+
+          <strong>${{ singeldata?.currentPrice }}</strong>
+
+        </div>
+
+        <div class="row">
+
+          <span>Fee</span>
+
+          <strong>${{ tradingFee }}</strong>
+
+        </div>
+
+        <div class="row">
+
+          <span>Quantity</span>
+
+          <strong>{{ quantity }}</strong>
+
+        </div>
+
+        <hr>
+
+        <div class="row total">
+
+          <span>Total</span>
+
+          <h2>${{ grandTotal }}</h2>
+
+        </div>
+
+      </div>
+
+
+      <!-- Order Button -->
+
+    <!-- Order Button -->
+<button
+  class="place-order"
+  [class.sell-btn]="!isBuy"
+  (click)="placeOrder()"
+  [disabled]="isLoading || (isBuy && grandTotal > availableBalance)">
+
+  {{ isLoading
+      ? 'PROCESSING...'
+      : (isBuy ? 'PLACE BUY ORDER' : 'PLACE SELL ORDER') }}
+
+</button>
+
+    </aside>
+
+  </section>
+
+</div>
+@if(orderMessage){
+<div class="order-alert" [class.success]="orderSuccess">
+  {{orderMessage}}
+</div>
+}

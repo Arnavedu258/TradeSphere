@@ -1,0 +1,235 @@
+:host{
+  display:block;
+  width:100%;
+  height:100%;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar{
+    margin-left:1vw;
+  width:92vw;
+  height:100%;
+  padding:0 24px;
+  border-radius:22px;
+  background:rgba(12,18,36,.72);
+  backdrop-filter:blur(26px) saturate(180%);
+  -webkit-backdrop-filter:blur(26px);
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:
+    0 20px 40px rgba(0,0,0,.45),
+    inset 0 1px rgba(255,255,255,.05);
+  position:relative;
+  overflow:hidden;
+}
+
+.navbar::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    115deg,
+    transparent,
+    rgba(255,255,255,.08),
+    transparent
+  );
+  transform:translateX(-120%);
+  animation:shine 7s linear infinite;
+}
+
+@keyframes shine{
+  100%{ transform:translateX(120%); }
+}
+
+/* ================= LAYOUT ================= */
+
+.controlser{
+    width:95%;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  height:100%;
+  position:relative;
+  z-index:2;
+}
+
+.left-nav{
+  display:flex;
+  align-items:center;
+  gap:38px;
+}
+
+.right-nav{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+/* ================= LOGO ================= */
+
+.navbar-brand{
+  font-size:34px;
+  font-weight:800;
+  letter-spacing:-1px;
+  text-decoration:none;
+
+  background:linear-gradient(90deg,#ffffff,#A855F7,#22D3EE);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.navbar-brand span{
+  -webkit-text-fill-color:#22D3EE;
+}
+
+/* ================= MENU ================= */
+
+.centrol{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.nav-link{
+  position:relative;
+  color:#B8C5E4 !important;
+  text-decoration:none;
+  font-size:15px;
+  font-weight:600;
+  padding:11px 18px !important;
+  border-radius:14px;
+  transition:.3s ease;
+}
+
+.nav-link:hover{
+  color:#fff !important;
+  background:rgba(255,255,255,.05);
+}
+
+.nav-link.active{
+  color:#fff !important;
+  background:linear-gradient(
+    135deg,
+    rgba(59,130,246,.22),
+    rgba(124,58,237,.18)
+  );
+  box-shadow:
+    0 0 22px rgba(99,102,241,.25),
+    inset 0 1px rgba(255,255,255,.06);
+}
+
+.nav-link.active::after{
+  content:"";
+  position:absolute;
+  left:22%;
+  bottom:6px;
+  width:56%;
+  height:3px;
+  border-radius:10px;
+  background:#22D3EE;
+  box-shadow:0 0 12px #22D3EE;
+}
+
+/* ================= SEARCH ================= */
+
+.search-box{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  width:260px;
+  height:44px;
+  padding:0 14px;
+  border-radius:14px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.06);
+}
+
+.search-box input{
+  flex:1;
+  border:none;
+  outline:none;
+  background:transparent;
+  color:#fff;
+  font-size:14px;
+}
+
+.search-box input::placeholder{
+  color:#64748B;
+}
+
+/* ================= ICON BUTTONS ================= */
+
+.icon-btn{
+  width:42px;
+  height:42px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  color:#CBD5E1;
+  background:rgba(255,255,255,.05);
+  transition:.25s;
+}
+
+.icon-btn:hover{
+  background:linear-gradient(135deg,#2563EB,#7C3AED);
+  color:#fff;
+  transform:translateY(-2px);
+  box-shadow:0 10px 20px rgba(37,99,235,.25);
+}
+
+/* ================= USER ================= */
+
+.user-box{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:6px 12px;
+  border-radius:14px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.06);
+}
+
+.user-box img{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid #22D3EE;
+  box-shadow:0 0 14px rgba(34,211,238,.45);
+}
+
+.user-box h6{
+  margin:0;
+  color:#fff;
+  font-size:13px;
+  font-weight:700;
+}
+
+.user-box small{
+  color:#22D3EE;
+  font-size:11px;
+  font-weight:600;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:992px){
+
+  .centrol{
+    display:none;
+  }
+
+  .search-box{
+    width:170px;
+  }
+
+  .user-box div{
+    display:none;
+  }
+
+  .navbar-brand{
+    font-size:28px;
+  }
+
+}

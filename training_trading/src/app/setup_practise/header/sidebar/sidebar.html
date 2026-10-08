@@ -1,0 +1,84 @@
+<div class="sidebar">
+
+  <!-- Logo -->
+  <div class="logo-area">
+    <a routerLink="/dashboard">
+      <div class="dashersd">
+        <div class="dives"></div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Navigation -->
+  <div class="nav-links">
+
+    <a routerLink="/dashboard"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{exact:true}">
+      <div class="icon-wrap">
+        <fa-icon [icon]="faHouse"></fa-icon>
+      </div>
+      <span>Dashboard</span>
+    </a>
+
+    <a routerLink="/dashboard/market"
+       routerLinkActive="active">
+      <div class="icon-wrap">
+        <fa-icon [icon]="faChartSimple"></fa-icon>
+      </div>
+      <span>Markets</span>
+    </a>
+
+    <a routerLink="/dashboard/portfolio"
+       routerLinkActive="active">
+      <div class="icon-wrap">
+        <fa-icon [icon]="faDatabase"></fa-icon>
+      </div>
+      <span>Portfolio</span>
+    </a>
+
+    <a routerLink="/dashboard/orders"
+       routerLinkActive="active">
+      <div class="icon-wrap">
+        <fa-icon [icon]="faClipboardList"></fa-icon>
+      </div>
+      <span>Orders</span>
+    </a>
+
+    <a routerLink="/dashboard/wallet"
+       routerLinkActive="active">
+      <div class="icon-wrap">
+        <fa-icon [icon]="faWallet"></fa-icon>
+      </div>
+      <span>Wallet</span>
+    </a>
+
+    <a routerLink="/dashboard/withdraw"
+       routerLinkActive="active">
+      <div class="icon-wrap">
+        <fa-icon [icon]="faMoneyBillTransfer"></fa-icon>
+      </div>
+      <span>Withdraw</span>
+    </a>
+
+    <a routerLink="/dashboard/activity"
+       routerLinkActive="active">
+      <div class="icon-wrap">
+        <fa-icon [icon]="faArrowTrendUp"></fa-icon>
+      </div>
+      <span>Activity</span>
+    </a>
+
+  </div>
+
+  <!-- Profile -->
+  <div class="profile">
+    <img src="https://github.com/mdo.png" alt="profile">
+
+    <div>
+      <h5>Arnave</h5>
+      <small>Verified</small>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,345 @@
+<div class="orders-page">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero glass">
+    <div class="hero-content">
+
+      <div class="hero-title">
+      <div class="hero-icon">
+  <fa-icon [icon]="faChartLine"></fa-icon>
+</div>
+
+        <div>
+         <span class="live-badge">
+  <fa-icon [icon]="faCircle"></fa-icon>
+  LIVE TRADING
+</span>
+
+          <h1>Trade Orders</h1>
+          <p>Professional buy & sell history with real-time analytics</p>
+        </div>
+      </div>
+
+      <div class="hero-profit">
+        <label>Net Performance</label>
+
+        <h2 [class.up]="totalProfit>=0"
+            [class.down]="totalProfit<0">
+
+          {{totalProfit>=0?'+':''}}
+          ${{totalProfit | number:'1.2-2'}}
+
+        </h2>
+
+        <small>{{orders.length}} Executed Orders</small>
+      </div>
+
+    </div>
+
+    
+<button class="refresh-btn" (click)="loadOrders()">
+  <fa-icon [icon]="faRotateRight"></fa-icon>
+  Refresh
+</button>
+  </section>
+
+
+  <!-- ================= ANALYTICS ================= -->
+  <section class="analytics">
+
+    <div class="stat glass">
+  <div class="stat-icon cyan">
+  <fa-icon [icon]="faWallet"></fa-icon>
+</div>
+
+      <div>
+        <span>Total Buy Volume</span>
+        <h3>${{totalBuy | number:'1.2-2'}}</h3>
+      </div>
+    </div>
+
+    <div class="stat glass">
+    <div class="stat-icon green">
+  <fa-icon [icon]="faArrowTrendUp"></fa-icon>
+</div>
+
+      <div>
+        <span>Total Sell Volume</span>
+        <h3>${{totalSell | number:'1.2-2'}}</h3>
+      </div>
+    </div>
+
+    <div class="stat glass">
+     <div class="stat-icon purple">
+  <fa-icon [icon]="faTrophy"></fa-icon>
+</div>
+
+      <div>
+        <span>Best Trade</span>
+        <h3 class="up">${{bestTrade | number:'1.2-2'}}</h3>
+      </div>
+    </div>
+
+    <div class="stat glass">
+    <div class="stat-icon red">
+  <fa-icon [icon]="faChartColumn"></fa-icon>
+</div>
+
+      <div>
+        <span>Win Rate</span>
+        <h3>{{winRate | number:'1.0-0'}}%</h3>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ================= TOOLBAR ================= -->
+  <section class="toolbar glass">
+
+    <div class="search-box">
+  <fa-icon [icon]="faMagnifyingGlass"></fa-icon>
+
+  <input
+    [(ngModel)]="search"
+    (input)="applyFilters()"
+    placeholder="Search Bitcoin, ETH, SOL..." />
+</div>
+
+    <div class="toolbar-right">
+
+      <select [(ngModel)]="sortBy" (change)="applyFilters()">
+        <option value="date">Latest First</option>
+        <option value="value">Highest Value</option>
+        <option value="profit">Highest Profit</option>
+      </select>
+
+    <div class="toggle">
+  <button
+    [class.active]="selectedType==='BUY'"
+    (click)="changeType('BUY')">
+
+    <fa-icon [icon]="faArrowDown"></fa-icon>
+    BUY
+
+  </button>
+
+  <button
+    [class.active]="selectedType==='SELL'"
+    (click)="changeType('SELL')">
+
+    <fa-icon [icon]="faArrowUp"></fa-icon>
+    SELL
+
+  </button>
+</div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= TABLE ================= -->
+  <section class="orders-table glass">
+
+    <div class="table-header">
+      <div>
+        <h2>Order History</h2>
+        <p>{{viewOrders.length}} matching trades</p>
+      </div>
+    </div>
+
+    <table>
+
+      <thead>
+        <tr>
+
+          <th>Asset</th>
+          <th>Quantity</th>
+          <th>Buy Price</th>
+          <th>Current</th>
+          <th>Value</th>
+          <th>Profit</th>
+          <th>Status</th>
+          <th>Time</th>
+
+        </tr>
+      </thead>
+
+      <tbody>
+
+        @if(loading){
+
+          @for(i of [1,2,3,4,5,6]; track i){
+            <tr class="skeleton-row">
+              <td colspan="8">
+                <div class="skeleton"></div>
+              </td>
+            </tr>
+          }
+
+        } @else {
+
+          @for(order of paginatedOrders; track order.id){
+
+          <tr>
+
+            <td>
+
+              <div class="asset-cell">
+                <img [src]="order.orderItem?.image ? order.orderItem?.image :'../../../header/images/icons8-bitcoin-64.png'">
+
+
+                <div>
+                  <h4>{{order.name}}</h4>
+                  <span>{{order.coinider | uppercase}}</span>
+                </div>
+              </div>
+
+            </td>
+
+            <td>{{order.orderItem.quantity}}</td>
+
+            <td>
+              ${{order?.orderItem.BuyPrice | number:'1.2-6'}}
+            </td>
+            
+
+            <td>
+              ${{order.price | number:'1.2-6'}}
+            </td>
+
+            <td>
+              <strong>
+                ${{getOrderValue(order) | number:'1.2-2'}}
+              </strong>
+            </td>
+
+            <td>
+
+              <div class="profit-cell">
+
+                <strong
+                  [class.up]="getProfit(order)>=0"
+                  [class.down]="getProfit(order)<0">
+
+                  {{getProfit(order)>=0?'+':''}}
+                  ${{getProfit(order)|number:'1.2-2'}}
+
+                </strong>
+
+                <small
+                  [class.up]="getProfit(order)>=0"
+                  [class.down]="getProfit(order)<0">
+
+                  {{
+                    ((getProfit(order)/(order?.orderItem.BuyPrice*order.orderItem.quantity))*100)
+                    | number:'1.2-2'
+                  }}%
+
+                </small>
+
+              </div>
+
+            </td>
+
+            <td>
+
+          <span class="status success">
+  <fa-icon [icon]="faCircleCheck"></fa-icon>
+  {{order.status}}
+</span>
+
+            </td>
+
+            <td>
+              {{order.timestamp | date:'dd MMM yyyy'}}
+              <br>
+              <small>{{order.timestamp | date:'HH:mm'}}</small>
+            </td>
+
+          </tr>
+
+          } @empty {
+
+          <tr>
+           <td colspan="8" class="empty">
+
+  <fa-icon [icon]="faBoxOpen" size="3x"></fa-icon>
+
+  <h3>No Orders Found</h3>
+
+  <p>Try changing the filter or execute a new trade.</p>
+
+</td>
+          </tr>
+
+          }
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </section>
+
+
+  <!-- ================= FOOTER ================= -->
+  <section class="footer-summary glass">
+
+    <div>
+      <label>Orders</label>
+      <h3>{{orders.length}}</h3>
+    </div>
+
+    <div>
+      <label>Best Trade</label>
+      <h3 class="up">${{bestTrade | number:'1.2-2'}}</h3>
+    </div>
+
+    <div>
+      <label>Worst Trade</label>
+      <h3 class="down">${{worstTrade | number:'1.2-2'}}</h3>
+    </div>
+
+    <div>
+      <label>Net Profit</label>
+      <h3 [class.up]="totalProfit>=0"
+          [class.down]="totalProfit<0">
+
+        {{totalProfit>=0?'+':''}}
+        ${{totalProfit | number:'1.2-2'}}
+
+      </h3>
+    </div>
+
+  </section>
+
+
+  <!-- ================= PAGINATION ================= -->
+ <div class="pagination">
+
+  <button
+    (click)="prev()"
+    [disabled]="currentPage===1">
+
+    <fa-icon [icon]="faChevronLeft"></fa-icon>
+    Previous
+
+  </button>
+
+  <span>Page {{currentPage}} of {{totalPages}}</span>
+
+  <button
+    (click)="next()"
+    [disabled]="currentPage===totalPages">
+
+    Next
+    <fa-icon [icon]="faChevronRight"></fa-icon>
+
+  </button>
+
+</div>
+
+</div>

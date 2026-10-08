@@ -1,0 +1,479 @@
+<div class="wallet-page">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero-card">
+
+    <div class="hero-left">
+
+      <div class="wallet-title">
+        <fa-icon [icon]="faCircleCheck"></fa-icon>
+        <span>TradeX Wallet</span>
+      </div>
+
+      <p class="label">Total Balance</p>
+
+      <h1>₹ {{ wallet.balance | number:'1.2-2' }}</h1>
+
+      <div class="verified">
+        <fa-icon [icon]="faShield"></fa-icon>
+        Verified Wallet
+      </div>
+
+    </div>
+
+    <div class="hero-right">
+      <div class="wallet-glow">
+        <fa-icon [icon]="faWallet"></fa-icon>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ================= STATS ================= -->
+
+<section class="stats">
+
+  <div class="stat-card">
+    <div class="icon blue">
+      <fa-icon [icon]="faWallet"></fa-icon>
+    </div>
+    <div>
+      <p>Wallet Balance</p>
+      <h3>₹ {{ wallet.balance | number:'1.2-2' }}</h3>
+      <span>Available</span>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="icon cyan">
+      <fa-icon [icon]="faDownload"></fa-icon>
+    </div>
+    <div>
+      <p>Total Deposit</p>
+      <h3>₹ {{ totalDeposit | number:'1.2-2' }}</h3>
+      <span>{{ depositCount }} Deposits</span>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="icon purple">
+      <fa-icon [icon]="faPaperPlane"></fa-icon>
+    </div>
+    <div>
+      <p>Total Transfers</p>
+      <h3>{{ transferCount }}</h3>
+      <span>Wallet Transfers</span>
+    </div>
+  </div>
+
+</section>
+
+  <!-- ================= ACTION ================= -->
+
+  <section class="action-grid">
+
+    <div class="action deposit" (click)="showDeposit=true">
+      <fa-icon [icon]="faPlus"></fa-icon>
+
+      <div>
+        <h4>Deposit Money</h4>
+        <p>Add funds securely</p>
+      </div>
+
+      <fa-icon [icon]="faChevronRight" class="arrow"></fa-icon>
+    </div>
+
+    <div class="action transfer" (click)="showTransfer=true">
+
+      <fa-icon [icon]="faPaperPlane"></fa-icon>
+
+      <div>
+        <h4>Transfer Money</h4>
+        <p>Wallet to Wallet</p>
+      </div>
+
+      <fa-icon [icon]="faChevronRight" class="arrow"></fa-icon>
+
+    </div>
+
+    <div class="action order" (click)="showPay=true">
+
+      <fa-icon [icon]="faCreditCard"></fa-icon>
+
+      <div>
+        <h4>Pay Order</h4>
+        <p>Instant settlement</p>
+      </div>
+
+      <fa-icon [icon]="faChevronRight" class="arrow"></fa-icon>
+
+    </div>
+
+  </section>
+
+  <!-- ================= TRANSACTION ================= -->
+
+<section class="tx-card">
+
+  <div class="tx-header">
+    <div class="title">
+      <div class="icon-box">
+        <fa-icon [icon]="faWallet"></fa-icon>
+      </div>
+
+      <div>
+        <h2>Recent Transactions</h2>
+        <p>Track all your wallet activities in real-time</p>
+      </div>
+    </div>
+
+    <button class="view-btn">
+      View All
+      <fa-icon [icon]="faChevronRight"></fa-icon>
+    </button>
+  </div>
+
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>TYPE</th>
+          <th>SENDER</th>
+          <th>RECEIVER</th>
+          <th>AMOUNT</th>
+          <th>DATE & TIME</th>
+          <th>ID</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        @for(tx of transactions; track tx.id){
+
+        <tr>
+
+          <td>
+            <div class="type-box">
+
+              <div class="type-icon"
+                [class.deposit]="tx.walletTransactionType==='DEPOSIT'"
+                [class.transfer]="tx.walletTransactionType==='TRANSFER'">
+
+                <fa-icon
+                  [icon]="tx.walletTransactionType==='DEPOSIT'
+                    ? faDownload
+                    : faPaperPlane">
+                </fa-icon>
+
+              </div>
+
+              <span class="badge"
+                [class.green]="tx.walletTransactionType==='DEPOSIT'"
+                [class.blue]="tx.walletTransactionType==='TRANSFER'">
+
+                {{tx.walletTransactionType}}
+
+              </span>
+
+            </div>
+          </td>
+
+          <td>
+            <div class="user">
+              <strong>{{tx.sender.userName}}</strong>
+              <small>{{tx.sender.userEmail}}</small>
+            </div>
+          </td>
+
+          <td>
+            <div class="user">
+              <strong>{{tx.receiver.userName}}</strong>
+              <small>{{tx.receiver.userEmail}}</small>
+            </div>
+          </td>
+
+          <td class="amount">
+            ₹ {{tx.amount | number}}
+          </td>
+
+          <td>
+            <div class="date">
+              <span>{{tx.createdAt | date:'dd MMM yyyy'}}</span>
+              <small>{{tx.createdAt | date:'hh:mm a'}}</small>
+            </div>
+          </td>
+
+          <td>
+            <span class="id-pill">#{{tx.id}}</span>
+          </td>
+
+        </tr>
+
+        } @empty {
+
+        <tr>
+          <td colspan="6" class="empty">
+            No Transactions Found
+          </td>
+        </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</section>
+</div>
+
+<!-- ================================================= -->
+<!--                DEPOSIT MODAL                       -->
+<!-- ================================================= -->
+
+@if(showDeposit){
+
+<div class="modal-backdrop">
+
+  <div class="modal-card">
+
+    <div class="modal-header">
+
+      <div>
+        <h2>Deposit Funds</h2>
+        <p>Add money into your TradeX wallet</p>
+      </div>
+
+      <button class="close" (click)="showDeposit=false">
+        ✕
+      </button>
+
+    </div>
+
+    <div class="profile-circle deposit-icon">
+      <fa-icon [icon]="faPlus"></fa-icon>
+    </div>
+
+    <div class="field">
+
+      <label>Deposit Amount</label>
+
+      <input
+        type="number"
+        placeholder="₹ Enter Amount"
+        [(ngModel)]="depositAmount">
+
+    </div>
+<button
+  class="primary-btn"
+  [disabled]="depositAmount<=0 || loading"
+  (click)="deposit()">
+
+  {{ loading ? 'Processing...' : ('Deposit ₹ '+depositAmount) }}
+
+</button>
+  </div>
+
+</div>
+
+}
+
+<!-- ================================================= -->
+<!--             WALLET TRANSFER MODAL                 -->
+<!-- ================================================= -->
+
+@if(showTransfer){
+
+<div class="modal-backdrop">
+
+  <div class="modal-card">
+
+    <div class="modal-header">
+
+      <div>
+        <h2>Wallet Transfer</h2>
+        <p>Send money securely to another user</p>
+      </div>
+
+      <button class="close" (click)="showTransfer=false">
+        ✕
+      </button>
+
+    </div>
+
+    <div class="profile-circle transfer-icon">
+      <fa-icon [icon]="faPaperPlane"></fa-icon>
+    </div>
+
+    <div class="field">
+
+      <label>Receiver User ID</label>
+
+      <input
+        type="number"
+        placeholder="Enter Receiver User ID"
+        [(ngModel)]="receiverId">
+
+    </div>
+
+    <div class="field">
+
+      <label>Transfer Amount</label>
+
+      <input
+        type="number"
+        placeholder="₹ Enter Amount"
+        [(ngModel)]="transferAmount">
+
+    </div>
+
+  <button
+  class="primary-btn"
+  [disabled]="receiverId<=0 || transferAmount<=0 || loading"
+  (click)="transfer()">
+
+  {{ loading ? 'Sending...' : 'Send Money' }}
+
+</button>
+
+  </div>
+
+</div>
+
+}
+
+<!-- ================================================= -->
+<!--                PAY ORDER MODAL                    -->
+<!-- ================================================= -->
+
+@if(showPay){
+
+<div class="modal-backdrop">
+
+  <div class="modal-card">
+
+    <div class="modal-header">
+
+      <div>
+        <h2>Pay Order</h2>
+        <p>Complete your pending order payment</p>
+      </div>
+
+      <button class="close" (click)="showPay=false">
+        ✕
+      </button>
+
+    </div>
+
+    <div class="profile-circle order-icon">
+      <fa-icon [icon]="faCreditCard"></fa-icon>
+    </div>
+
+    <div class="field">
+
+      <label>Order ID</label>
+
+      <input
+        type="number"
+        placeholder="Enter Order ID"
+        [(ngModel)]="orderId">
+
+    </div>
+<button
+  class="primary-btn"
+  [disabled]="orderId<=0 || loading"
+  (click)="payOrder()">
+
+  {{ loading ? 'Paying...' : 'Pay Now' }}
+
+</button>
+
+  </div>
+
+</div>
+
+}
+
+<!-- ================================================= -->
+<!--              PROCESSING LOADER                    -->
+<!-- ================================================= -->
+
+@if(loading){
+
+<div class="modal-backdrop">
+
+  <div class="loading-card">
+
+    <div class="loader-ring"></div>
+
+    <h3>Processing Transaction</h3>
+
+    <p>Please wait while we securely process your payment...</p>
+
+  </div>
+
+</div>
+
+}
+
+<!-- ================================================= -->
+<!--              SUCCESS RECEIPT                      -->
+<!-- ================================================= -->
+
+@if(showSuccess){
+
+<div class="modal-backdrop">
+
+  <div class="success-card">
+
+    <div class="success-icon">
+      <fa-icon [icon]="faCheck"></fa-icon>
+    </div>
+
+    <h2>Transaction Successful</h2>
+
+    <h1>₹ {{lastAmount}}</h1>
+
+    <p>{{lastType}}</p>
+
+    <div class="receipt">
+
+      <div>
+        <span>Transaction ID</span>
+        <b>{{transactionId}}</b>
+      </div>
+
+      <div>
+        <span>Date</span>
+        <b>{{today | date:'medium'}}</b>
+      </div>
+
+      <div>
+        <span>Status</span>
+        <b class="success-text">Completed</b>
+      </div>
+
+      @if(receiverId>0){
+
+      <div>
+        <span>Receiver</span>
+        <b>#{{receiverId}}</b>
+      </div>
+
+      }
+
+    </div>
+
+    <button class="primary-btn" (click)="showSuccess=false">
+      Done
+    </button>
+
+  </div>
+
+</div>
+
+
+}
