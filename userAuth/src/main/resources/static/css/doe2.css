@@ -1,0 +1,118 @@
+.bodyform{
+ width: 60%;
+ height:80vh;
+ margin:5% auto;
+display:flex;
+box-shadow: 0.5rem 0.5rem 2rem rgb(70, 68, 68);
+ border-radius:2rem;
+
+
+}
+.body1{
+    width:47%;
+    height:100%;
+    
+
+}
+.body2{
+    width:52%;
+    height:100%;
+
+
+    
+
+}
+.texter{
+    display:flex;
+    flex-direction: column;
+    line-height: 1px;
+}
+.former{
+    width:70%;
+    height:50vh;
+    margin:8vh auto;
+  
+    text-align: start;
+}
+form{
+        margin-top:1.7rem;
+    display: flex;
+    flex-direction: column;
+    text-align:start;
+    gap:0.7rem;
+
+}
+button{
+    text-align: center;
+    width:95%;
+    height:5.2vh;
+    border-radius:1rem;
+        font-size: 1.05 rem;
+        border:none;
+        background-color:#dddddd
+}
+.liner{
+    width:100%;
+    display:flex;
+    color: rgb(77, 76, 76);
+    font-size: 0.5 rem;
+
+}
+form label{
+    font-size: 1rem;
+    font-weight: bold;
+    
+}
+.show{
+    display:flex;justify-content: space-between;
+    
+}
+.show1 label{
+    font-size: 1rem;
+    
+}
+
+.show2 a{
+    color:blue;
+    text-decoration: none;
+    font-size: 1.1rem;
+
+}
+
+
+input[type="submit"]{
+    margin-top:1rem;
+    text-align: center;
+    width:95%;
+    height:5.2vh;
+    border-radius:1rem;
+        font-size: 1.05 rem;
+        color:white;
+        background-color:black
+}
+input[type="text"]{
+    width:95%;
+    height:5vh;
+    border-radius:1rem;
+        font-size: 0.9rem;
+        border: 1px solid #bdbdbd;
+}
+input[type="password"]{
+    width:95%;
+    height:5vh;
+    border-radius:1rem;
+    font-size: 0.9rem;
+     border: 1px solid #bdbdbd;
+}
+.imgh{
+   
+margin:0.5rem auto;
+ width:97%;
+    height:97%;
+    background-image: url("../img/img2.png");
+    background-repeat: no-repeat;
+    background-size:100% 100%;
+    border-radius: 1rem;
+     
+    
+}

@@ -1,0 +1,105 @@
+.bodyform{
+ width: 65%;
+ height:75vh;
+ margin:5% auto;
+display:flex;
+box-shadow: 0.5rem 0.5rem 2rem rgb(70, 68, 68);
+ border-radius:2rem;
+
+
+}
+.body1{
+    width:55%;
+    height:100%;
+    
+
+}
+.body2{
+    width:45%;
+    height:100%;
+
+
+    
+
+}
+.former{
+    width:70%;
+    height:55vh;
+    margin:10vh auto;
+  
+    text-align: center;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    text-align:start;
+    gap:0.7rem;
+
+}
+.liner{
+    width:100%;
+    display:flex;
+    color: rgb(77, 76, 76);
+    font-size: 1.2rem;
+
+}
+form label{
+    font-size: 1.2rem;
+    ;
+}
+.show{
+    display:flex;justify-content: space-between;
+    
+}
+.show1 label{
+    font-size: 1rem;
+    
+}
+
+.show2 a{
+    color:blue;
+    text-decoration: none;
+    font-size: 1.1rem;
+
+}
+.linkseter{
+    width:50%;
+    
+    height:30px;
+    border:1px solid grey;
+    box-shadow: 0.5rem 0.5rem 2rem rgb(70, 68, 68);
+}
+
+input[type="submit"]{
+    text-align: center;
+    width:100%;
+    height:5.6vh;
+    border-radius:1rem;
+        font-size: 1.5rem;
+        color:white;
+        background-color:#3838ec ;
+}
+input[type="text"]{
+    width:95%;
+    height:5.6vh;
+    border-radius:1rem;
+        font-size: 1rem;
+}
+input[type="password"]{
+    width:95%;
+    height:5.5vh;
+    border-radius:1rem;
+    font-size: 1rem;
+}
+.imgh{
+   
+margin:0.5rem auto;
+ width:97%;
+    height:97%;
+    background-image: url("../img/image.png");
+    background-repeat: no-repeat;
+    background-size:100% 100%;
+    border-radius: 1rem;
+     
+    
+}

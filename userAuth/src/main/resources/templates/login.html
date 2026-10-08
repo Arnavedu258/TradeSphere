@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/dem.css">
+
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <title>Document</title>
+</head>
+<body>
+
+<div class="bodyform">
+    <div class="body1">
+
+        <div class="former">
+            <h1>Welcome Back</h1>
+            <p style="font-size:1.05rem;color:gray">Enter your email and password to access your account</p>
+
+            <form action="/login" method="post"> 
+                <label for="usern">Username</label>
+                <input type="text" name="username" id="usern" placeholder="enter the username" required>
+                <label for="passn">Password</label>
+             <input type="password" name="password" id="passn"  placeholder="enter the password" required>
+
+<div class="show"><div class="show1">
+    <input type="checkbox" name="checks" id="check">
+    <label for="check">Remember me</label>
+</div>
+<div class="show2">
+<a href="/register">Forgot the password</a>
+</div>
+</div>
+
+<input type="submit" value="Login Now">       
+
+
+ </form>
+<div class="liner">
+    <hr style="width:35% ;height:1px;margin-top:1.8rem;font-weight: bold;"><p>Or Login With</p><hr style="width:35% ;height:1px;margin-top:1.8rem;font-weight: bold;">
+</div>
+
+
+<div class="linkseter">
+    <a href="/oauth2/authorization/google"
+       class="oauth-btn google-btn">
+
+     <i class="fa-brands fa-google"></i>
+     
+        Continue with Google
+
+    </a>
+</div>
+
+<p style="font-size:1.05rem;color:gray;font-weight: bolder;">Don't Have An Account? <span style="color:#3838ec "><a href="/register" style="text-decoration: none;color:#3838ec">Register Now.</a></span></p>
+        </div>
+    </div>
+    <div class="body2">
+
+        <div class="imgh"></div>
+    </div>
+</div>
+    
+</body>
+</html>
